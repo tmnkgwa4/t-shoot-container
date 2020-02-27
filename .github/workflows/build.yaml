@@ -1,0 +1,28 @@
+name: tshoot-tools
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  cicd:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Docker login
+        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build
+        run: docker build -t back .
+      - name: Tags
+        run: |
+          docker tag back ${{ secrets.DOCKER_USER }}/tshoot-tools:${{ github.sha }}
+          docker tag back ${{ secrets.DOCKER_USER }}/tshoot-tools:latest
+      - name: Push
+        run: |
+          docker push ${{ secrets.DOCKER_USER }}/tshoot-tools:${{ github.sha }}
+          docker push ${{ secrets.DOCKER_USER }}/tshoot-tools:latest
