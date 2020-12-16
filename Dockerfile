@@ -14,6 +14,8 @@ RUN set -ex \
     ethtool \
     file\
     fping \
+    git \
+    go \
     iftop \
     iperf \
     iproute2 \
@@ -24,7 +26,9 @@ RUN set -ex \
     jq \
     libc6-compat \
     liboping \
+    make \
     mtr \
+    musl-dev \
     net-snmp-tools \
     netcat-openbsd \
     nftables \
@@ -37,6 +41,22 @@ RUN set -ex \
     tcpdump \
     tcptraceroute \
     util-linux
+
+ENV GOPATH /root/go
+ENV PATH ${GOPATH}/bin:/usr/local/go/bin:$PATH
+ENV GOBIN $GOROOT/bin
+RUN mkdir -p ${GOPATH}/src ${GOPATH}/bin
+ENV GO111MODULE=on
+
+RUN apk update \
+  && apk add --virtual build-dependencies git \
+  && apk add bash curl jq \
+  && go get -u github.com/fullstorydev/grpcurl \
+  && go install github.com/fullstorydev/grpcurl/cmd/grpcurl \
+  && rm -rf /go/pkg \
+  && rm -rf /go/src \
+  && apk del build-dependencies \
+  && rm -rf /var/cache/apk/*
 
 # Nginx install & setting
 RUN apk add --no-cache nginx && mkdir -p /run/nginx
