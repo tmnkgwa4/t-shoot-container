@@ -42,6 +42,9 @@ RUN set -ex \
 RUN apk add --no-cache nginx && mkdir -p /run/nginx
 COPY default.conf /etc/nginx/conf.d/default.conf
 COPY app /app
+COPY app /app1
+COPY app /app2
+COPY app /app3
 EXPOSE 80
 
 # Nginx startup setting
