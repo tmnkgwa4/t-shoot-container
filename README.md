@@ -1,11 +1,11 @@
-[![Actions status](https://github.com/tmnkgwa4/tshoot-tools/workflows/tshoot-tools/badge.svg)](https://github.com/tmnkgwa4/tshoot-tools/actions)
-# t-shoot-container
+# tshoot-container
 
 ## What is this ??
 トラブルシュート用ツールを入れたDockerfile
 
 ## Tool list
 apache2-utils \
+aws-cli \
 bind-tools \
 bridge-utils \
 conntrack-tools \
@@ -37,4 +37,3 @@ strace \
 tcpdump \
 tcptraceroute \
 util-linux
-
