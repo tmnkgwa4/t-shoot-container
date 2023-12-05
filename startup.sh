@@ -1,5 +1,7 @@
 #!/bin/sh
 
-/bin/hostname > /app/index.html
-/usr/sbin/nginx -g "daemon off;"
+for i in "app" "app1" "app2" "app3" "live" "ready" "healthz"; do
+  /bin/hostname > /$i/index.html
+done
 
+/usr/sbin/nginx -g "daemon off;"

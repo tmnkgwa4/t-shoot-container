@@ -1,4 +1,4 @@
-FROM alpine:3.11
+FROM alpine:3.15.11
 MAINTAINER tmnkgwa4@gmail.com
 
 # Tool list : https://hub.docker.com/r/nicolaka/netshoot
@@ -6,6 +6,7 @@ RUN set -ex \
     && apk update \
     && apk add --no-cache \
     apache2-utils \
+    aws-cli \
     bind-tools \
     bridge-utils \
     conntrack-tools \
@@ -60,9 +61,16 @@ RUN apk update \
 
 # Nginx install & setting
 RUN apk add --no-cache nginx && mkdir -p /run/nginx
-COPY default.conf /etc/nginx/conf.d/default.conf
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
+COPY nginx/tshoot-tools.conf /etc/nginx/http.d/tshoot-tools.conf
 COPY app /app
-EXPOSE 80
+COPY app1 /app1
+COPY app2 /app2
+COPY app3 /app3
+COPY live /live
+COPY ready /ready
+COPY healthz /healthz
+EXPOSE 3000
 
 # Nginx startup setting
 COPY startup.sh /startup.sh
